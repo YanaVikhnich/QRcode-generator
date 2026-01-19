@@ -1,0 +1,24 @@
+.button {
+    background-color: #263FA9;
+    border: none;
+    outline: none;
+    color: #F2F5F9;
+    border-radius: 12px;
+   
+    cursor: pointer;
+}
+
+.qr-generate-button {
+    position: absolute;
+    width: 20%;
+    bottom: 6px;
+    right: 6px; 
+    padding: 14px;
+}
+.download-button, .share-button {
+ padding: 14px;
+ flex-grow: 1;
+ width: 100%;
+}
+.svg-images-button {
+}

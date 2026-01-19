@@ -1,0 +1,17 @@
+@import "./utils/fonts";
+@import './utils/texts';
+
+
+@import './base';
+
+@import './components/inputs';
+@import './components/buttons';
+@import './components/qr-logo';
+@import './components/input-button-container';
+@import './components/QR';
+@import './components/call-to-action-container';
+
+@import './layouts/url-container';
+@import './layouts/QRcode-container';
+
+@import './utils/hidden';

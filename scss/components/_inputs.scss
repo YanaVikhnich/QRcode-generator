@@ -1,0 +1,16 @@
+.input-control {
+   width: 70%;
+   background-color: transparent;
+   border:none;
+   padding: 16px;
+   color:#FAFAF9;
+   outline: none;
+    
+    &::placeholder {
+            color: #FAFAF9;
+    }
+    // &:focus {
+    //     border: 3px solid #263FA9;
+    //     outline: none;
+    // }
+}
