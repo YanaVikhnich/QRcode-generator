@@ -55,15 +55,18 @@ shareBtn.addEventListener("click", async () => {
   try {
     const response = await fetch(imgSRC);
     const blob = await response.blob();
-    const filesArray = [new File([blob], "qrcode.png", { type: blob.type })];
+    const filesArray = [new File([blob], "qrcode.jpg", { type: blob.type })];
     if (navigator.canShare && navigator.canShare(filesArray)) {
       await navigator.share({
         title: "QR Code",
-        files: filesArray,
+          text: "Here is your QR code",
+        url: URLfield.value,
       });
     } else {
-      window.open(imgSRC);
-      console.error("Sharing not supported or not enabled");
+        const blocbURL = URL.createObjectURL(blob);
+        window.open(blocbURL, "_blank");
+
+        setTimeout(() => URL.revokeObjectURL(blocbURL), 5000);
     }
   } catch (error) {
     console.error("Error sharing QR code:", error);
