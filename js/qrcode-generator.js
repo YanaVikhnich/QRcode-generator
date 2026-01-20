@@ -38,15 +38,27 @@ qrcodeGenerateBtn.addEventListener("click", (e) => {
   }
 });
 
-downloadBtn.addEventListener("click", () => {
+downloadBtn.addEventListener("click", async () => {
   let img = QRcode.querySelector("img");
-  let imgSrc = img.src;
-  let a = document.createElement("a");
-  a.href = imgSrc;
-  a.download = "qrcode.png";
+    let imgSrc = img.src;
+    
+    try {
+        const response = await fetch(imgSrc);
+        const blob = await response.blob();
+
+        const blocbURL = URL.createObjectURL(blob);
+         let a = document.createElement("a");
+        a.href = blocbURL;
+  a.download = "qrcode.jpg";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+
+        URL.revokeObjectURL(blocbURL);
+    }
+    catch (error) {
+        console.error("Error downloading QR code:", error);
+    }
 });
 
 shareBtn.addEventListener("click", async () => {
@@ -54,16 +66,16 @@ shareBtn.addEventListener("click", async () => {
   let imgSRC = img.src;
   try {
     const response = await fetch(imgSRC);
-    const blob = await response.blob();
+      const blob = await response.blob();
+      const blocbURL = URL.createObjectURL(blob);
     const filesArray = [new File([blob], "qrcode.jpg", { type: blob.type })];
     if (navigator.canShare && navigator.canShare(filesArray)) {
       await navigator.share({
         title: "QR Code",
           text: "Here is your QR code",
-        url: URLfield.value,
+        url: blocbURL,
       });
     } else {
-        const blocbURL = URL.createObjectURL(blob);
         window.open(blocbURL, "_blank");
 
         setTimeout(() => URL.revokeObjectURL(blocbURL), 5000);
