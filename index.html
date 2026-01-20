@@ -16,7 +16,7 @@
     <title>QR code generator | devChallenges.io</title>
   </head>
   <body>
-    <div class="URL-container container ">
+    <div class="URL-container container">
       <svg class="qr-logo-image" viewBox="0 0 164 64">
         <use href="./images/Logo.svg"> </use>
       </svg>
@@ -35,15 +35,17 @@
     </div>
 
     <div class="QRcode-container container hidden ">
-      <svg viewBox="0 0 132 32" width="320" height="32">
+      <svg class="qr-logo-image-small" viewBox="0 0 132 32" width="320" height="32">
         <use href="./images/Logo-small.svg"></use>
       </svg>
+       <div class="circle-background">
       <div class="QR"></div>
+     </div>
       <div class="call-to-act__buttons-container">
         <button class="button download-button">Download <svg viewBox="0 0 20 20" width="16" height="16" class="svg-images-button" preserveAspectRatio="none"><use href="./images/Load_circle_duotone.svg"></use></svg></button>
-        <button class="button share-button">Share <svg viewBox="0 0 20 20" width="16" height="16"><use href="./images/link_alt.svg" preserveAspectRatio="none"></use></svg></button>
+        <button class="button share-button">Share <svg viewBox="0 0 20 20" width="16" height="16" class="svg-images-button"><use href="./images/link_alt.svg" preserveAspectRatio="none"></use></svg></button>
       </div>
-    </div>
+      </div>
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="./js/qrcode-generator.js"></script>
