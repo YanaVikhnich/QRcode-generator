@@ -45,17 +45,28 @@ downloadBtn.addEventListener("click", async () => {
     const blob = await response.blob();
 
     const blobURL = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = blobURL;
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.open(blobURL, "_blank");
+      return;
+    } else {
+      let a = document.createElement("a");
+      a.href = blobURL;
       a.download = "qrcode.jpg";
-      a.addEventListener("click", () => {
+      a.addEventListener(
+        "click",
+        () => {
           setTimeout(() => {
-              URL.revokeObjectURL(blobURL);
-              a.remove();
-          })
-      }, 5000);
-    document.body.append(a);
+            URL.revokeObjectURL(blobURL);
+            a.remove();
+          });
+        },
+        5000,
+      );
+      document.body.append(a);
       a.click();
+      alert("QR code downloaded successfully");
+    }
   } catch (error) {
     console.error("Error downloading QR code:", error);
   }
@@ -67,7 +78,7 @@ shareBtn.addEventListener("click", async () => {
   try {
     const response = await fetch(imgSRC);
     const blob = await response.blob();
-    const filesArray = [new File([blob], "qrcode.jpg", { type: blob.type })];
+    const filesArray = [new File([blob], "qrcode.png", { type: blob.type })];
     if (navigator.canShare && navigator.canShare(filesArray)) {
       await navigator.share({
         title: "QR Code",
