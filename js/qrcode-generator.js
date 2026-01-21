@@ -19,18 +19,16 @@ function generateQRCode(text) {
   });
 }
 URLfield.addEventListener("input", () => {
-    clearError();
+  clearError();
 });
-
 
 qrcodeGenerateBtn.addEventListener("click", (e) => {
   e.preventDefault();
-    
+
   let qrContent = URLfield.value;
-    if (qrContent != "") {
-      
+  if (qrContent != "") {
     generateQRCode(qrContent);
-    
+
     urlContainer.classList.toggle("hidden");
     qrCodeContainer.classList.toggle("hidden");
   } else {
@@ -40,25 +38,27 @@ qrcodeGenerateBtn.addEventListener("click", (e) => {
 
 downloadBtn.addEventListener("click", async () => {
   let img = QRcode.querySelector("img");
-    let imgSrc = img.src;
-    
-    try {
-        const response = await fetch(imgSrc);
-        const blob = await response.blob();
+  let imgSrc = img.src;
 
-        const blocbURL = URL.createObjectURL(blob);
-         let a = document.createElement("a");
-        a.href = blocbURL;
-  a.download = "qrcode.jpg";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  try {
+    const response = await fetch(imgSrc);
+    const blob = await response.blob();
 
-        URL.revokeObjectURL(blocbURL);
-    }
-    catch (error) {
-        console.error("Error downloading QR code:", error);
-    }
+    const blobURL = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = blobURL;
+      a.download = "qrcode.jpg";
+      a.addEventListener("click", () => {
+          setTimeout(() => {
+              URL.revokeObjectURL(blobURL);
+              a.remove();
+          })
+      }, 5000);
+    document.body.append(a);
+      a.click();
+  } catch (error) {
+    console.error("Error downloading QR code:", error);
+  }
 });
 
 shareBtn.addEventListener("click", async () => {
@@ -66,18 +66,18 @@ shareBtn.addEventListener("click", async () => {
   let imgSRC = img.src;
   try {
     const response = await fetch(imgSRC);
-      const blob = await response.blob();
+    const blob = await response.blob();
     const filesArray = [new File([blob], "qrcode.jpg", { type: blob.type })];
     if (navigator.canShare && navigator.canShare(filesArray)) {
       await navigator.share({
         title: "QR Code",
-          text: "Here is your QR code",
+        text: "Here is your QR code",
         files: filesArray,
       });
     } else {
-        const item = new ClipboardItem({ [blob.type]: blob });
-        await navigator.clipboard.write([item]);
-        alert("QR code copied to clipboard");
+      const item = new ClipboardItem({ [blob.type]: blob });
+      await navigator.clipboard.write([item]);
+      alert("QR code copied to clipboard");
     }
   } catch (error) {
     console.error("Error sharing QR code:", error);
@@ -86,13 +86,13 @@ shareBtn.addEventListener("click", async () => {
 });
 
 function clearError() {
-    errorMes = inputBtnContainer.nextElementSibling;
-    errorMes.classList.remove("error-message");
-      errorMes.textContent = "";
-      errorMes.remove();
+  errorMes = inputBtnContainer.nextElementSibling;
+  errorMes.classList.remove("error-message");
+  errorMes.textContent = "";
+  errorMes.remove();
 }
 function showError() {
-    errorSpan = document.createElement("span");
+  errorSpan = document.createElement("span");
   inputBtnContainer.after(errorSpan);
   errorSpan = inputBtnContainer.nextElementSibling;
   errorSpan.classList.add("error-message");
