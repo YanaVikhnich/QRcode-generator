@@ -67,21 +67,21 @@ shareBtn.addEventListener("click", async () => {
   try {
     const response = await fetch(imgSRC);
       const blob = await response.blob();
-      const blocbURL = URL.createObjectURL(blob);
     const filesArray = [new File([blob], "qrcode.jpg", { type: blob.type })];
     if (navigator.canShare && navigator.canShare(filesArray)) {
       await navigator.share({
         title: "QR Code",
           text: "Here is your QR code",
-        url: blocbURL,
+        files: filesArray,
       });
     } else {
-        window.open(blocbURL, "_blank");
-
-        setTimeout(() => URL.revokeObjectURL(blocbURL), 5000);
+        const item = new ClipboardItem({ [blob.type]: blob });
+        await navigator.clipboard.write([item]);
+        alert("QR code copied to clipboard");
     }
   } catch (error) {
     console.error("Error sharing QR code:", error);
+    alert("Sharing failed. Please try again.");
   }
 });
 
